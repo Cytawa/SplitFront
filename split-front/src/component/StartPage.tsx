@@ -1,34 +1,34 @@
 import {Wrapper} from "./Wrapper";
 import {FormLabel, Input} from "@chakra-ui/react";
 import {DataContext} from "../App";
-import {useContext} from "react";
+import {useContext, useState} from "react";
 
 export const StartPage = () => {
-    const context = useContext(DataContext);
-    const onNameChanged = (
-        event: React.ChangeEvent<HTMLInputElement>
-    ) => {
-        context.dataModifier({
-            ...context.basicData,
-            name: event.currentTarget.value,
-        });
-    };
+    const context=useContext(DataContext)
+    const setContext=useState(DataContext);
+
+
+setContext.values(name)=>name;
+
 
     return(
-        <Wrapper heading={"Stwórz swój rachunek"}>
 
-            <FormLabel>Wpisz nazwe</FormLabel>
+            <Wrapper heading={"Stwórz swój rachunek"}>
+
+            <FormLabel>{context.Data.name} Wpisz nazwe</FormLabel>
             <Input
                 type="text"
-               value={context.basicData.name}
-                onChange={onNameChanged}
+                value=n
+                //onChange={onNameChanged}
 
             />
 
 
 
 
-        </Wrapper>
+            </Wrapper>
+
+
 
 
 
