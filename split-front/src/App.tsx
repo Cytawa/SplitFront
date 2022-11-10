@@ -5,20 +5,40 @@ import {BrowserRouter, Routes, Route} from "react-router-dom";
 import {StartPage} from "./component/StartPage"
 import {BillPage} from "./component/BillPage"
 import {ExpensePage} from "./component/ExpensePage"
+import { BasicData } from "./models/BasicData";
+import {UserPage} from "./component/UserPage"
+
+interface DataContext {
+    basicData: BasicData;
+    basicDataModifier: (value: BasicData) => void;
+}
 
 
+export const DataContext = createContext<DataContext>({
+    basicData: {
+        name: "",
+        user: "",
 
-export const DataContext = createContext({name: ""});
+    },
+    basicDataModifier: (value: BasicData) => {},
+
+});
 
 
 function App() {
-    const [dataContext, setDataContext] = useState()
-    const dataModifier = (value) => {
-        setDataContext(value)
-    }
+    const [basicData, setBasicData] = useState<BasicData>({
+
+            name: "",
+            user: "",
+
+        },);
+        const basicDataModifier = (value: BasicData) => {
+            setBasicData(value);
+        };
 
 
-    return (<DataContext.Provider value={{dataContext: dataContext, dataModifier: dataModifier}}
+
+    return (<DataContext.Provider value={{basicData: basicData, basicDataModifier: basicDataModifier}}
 
 
         >
@@ -30,6 +50,7 @@ function App() {
                         <Route path="/" element={<StartPage/>}></Route>
                         <Route path="/bill" element={<BillPage/>}></Route>
                         <Route path="/expense" element={<ExpensePage/>}></Route>
+                        <Route path="/user" element={<UserPage/>}></Route>
                     </Routes>
                 </BrowserRouter>
             </ChakraProvider>

@@ -1,36 +1,51 @@
 import {Wrapper} from "./Wrapper";
 import {FormLabel, Input} from "@chakra-ui/react";
 import {DataContext} from "../App";
-import {useContext, useState} from "react";
+import {useContext, useEffect, useState} from "react";
+import { Button, ButtonGroup } from '@chakra-ui/react'
+import {useNavigate} from "react-router-dom";
+import { Box } from '@chakra-ui/react'
+import axios from "axios";
 
 export const StartPage = () => {
-    const context=useContext(DataContext)
-    const setContext=useState(DataContext);
+    const context = useContext(DataContext)
+    const setContext = useState(DataContext);
+    const navigate = useNavigate();
 
+    const onBillNameChanged = (
+        event: React.ChangeEvent<HTMLInputElement>
+    ) => {
+        context.basicDataModifier({
+            ...context.basicData,
+            name: event.currentTarget.value,
+        });
+    };
 
-setContext.values(name)=>name;
+    function handleClick() {
 
+        fetch('http://localhost:3010/split/bill/save', {
 
-    return(
+            method: 'POST',
+            mode: 'cors',
+            headers: {'Content-Type': 'application/json',},
+            body: JSON.stringify({"nameBill": context.basicData.name})
 
-            <Wrapper heading={"Stwórz swój rachunek"}>
+        })
 
-            <FormLabel>{context.Data.name} Wpisz nazwe</FormLabel>
+    }
+
+    return (
+        <Wrapper heading={"Stwórz swój rachunek"}>
+
+            <FormLabel> Wpisz nazwe</FormLabel>
             <Input
                 type="text"
-                value=n
-                //onChange={onNameChanged}
-
+                value={context.basicData.name}
+                onChange={onBillNameChanged}
             />
+            <Button onClick={() => [navigate("./user"),handleClick()] } colorScheme='blue'>NEXT</Button>
 
-
-
-
-            </Wrapper>
-
-
-
-
+        </Wrapper>
 
     )
 }
