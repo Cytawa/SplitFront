@@ -8,16 +8,20 @@ import {ExpensePage} from "./component/ExpensePage"
 import { BasicData } from "./models/BasicData";
 import {UserPage} from "./component/UserPage"
 
+
 interface DataContext {
     basicData: BasicData;
     basicDataModifier: (value: BasicData) => void;
+}
+export interface User{
+    user:""
 }
 
 
 export const DataContext = createContext<DataContext>({
     basicData: {
         name: "",
-        user: "",
+        users: [{id:1,user:""}],
 
     },
     basicDataModifier: (value: BasicData) => {},
@@ -28,8 +32,8 @@ export const DataContext = createContext<DataContext>({
 function App() {
     const [basicData, setBasicData] = useState<BasicData>({
 
-            name: "",
-            user: "",
+        name: "",
+        users:  [{id:1,user:""}],
 
         },);
         const basicDataModifier = (value: BasicData) => {
