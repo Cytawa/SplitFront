@@ -7,7 +7,7 @@ interface WrapperProps {
 
 export const Wrapper = (props: WrapperProps) => {
     return (
-        <Center borderRadius='md' bg="#D2691E" h="100vh" flexDirection={"column"}>
+        <Center borderRadius='md' bg="#D2691E"   h="100vh" flexDirection={"column"}>
             {props.heading && (
                 <Heading as={"h2"} size="lg">
                     {props.heading}

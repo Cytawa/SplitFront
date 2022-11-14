@@ -2,91 +2,84 @@ import {Wrapper} from "./Wrapper";
 import React, {useContext, useState} from "react";
 import {DataContext} from "../App";
 import {Box, Button, color, FormLabel, Input} from "@chakra-ui/react";
-import { Center, Square, Circle } from '@chakra-ui/react'
+import {Center} from '@chakra-ui/react'
 import {useNavigate} from "react-router-dom";
+import {UserData} from "../models/UserData";
 
 export const UserPage = () => {
     const context = useContext(DataContext)
     const billName = context.basicData.name
-    //const userName = context.basicData.users
-    const navigate = useNavigate();
-
-    const [imie,setImie]=useState("")
-
-    const zmianaImie = (event: React.ChangeEvent<HTMLInputElement>)=>{
-
+    const [imie, setImie] = useState("")
+    const navigate=useNavigate()
+    const zmianaImie = (event: React.ChangeEvent<HTMLInputElement>) => {
         setImie(event.currentTarget.value)
+
     }
-    const m=imie
-    function createList (){
-        fetch(`http://localhost:3010/split/user/bill/`+billName, {
-            method: 'GET'}).then(response => users())
-        }
 
-const users=[]
-    users.push(res)
+   // context.basicData.users.push(imie)
 
 
-    const listItems = users.map((user) =>
-        <li>{user}</li>
-    );
-    async function handleClick(){
-
+    //const m=imie
+    //  function createList (){
+    //    fetch(`http://localhost:3010/split/user/bill/`+billName, {
+    //       method: 'GET'}).then(response => users())
+    //   }
+    //  users.push(response)
+    async function handleClick() {
         await fetch(`http://localhost:3010/split/user/signup`, {
-
             method: 'POST',
             mode: 'cors',
             headers: {'Content-Type': 'application/json',},
             body: JSON.stringify({
-                "username":m
-
+                "username": imie
             })
-
-
         })
 
-        singUserToBill()
-
+        await singUserToBill()
+        context.basicData.users.push(imie)
+        await czysc()
     }
-
-
     async function singUserToBill() {
         await fetch(`http://localhost:3010/split/user/setbill`
 
-    , {method: 'POST',
-            mode: 'cors',
+            , {
+                method: 'POST',
+                mode: 'cors',
                 headers: {'Content-Type': 'application/json',},
-                body: JSON.stringify({"username":imie,"bill": {"nameBill": context.basicData.name,}})
-        })
-
-
+                body: JSON.stringify({"username": imie, "bill": {"nameBill": context.basicData.name,}})
+            })
     }
-async function czysc (){
-       await setImie("")
-}
+
+    async function czysc() {
+        setImie("")
+    }
 
 
 
     return (
         <div>
 
-            <Box borderRadius='md' bg='#D2691E' color='black' px={4} h={20} fontSize={"xxx-large"}
+            <Box borderRadius='md' bg='#D2691E' color='black' px={4} h="100vh" fontSize={"xxx-large"} float={"left"} w="50vh"
             ><Center>
-                <b>Nazwa rachunku:<br/><Center>{billName}</Center></b></Center>
-            </Box>
+                <b>Nazwa rachunku:<br/>{billName}</b></Center>
+            </Box><Box bg='#D2691E' float={"right" } w="50vh" borderRadius='md' fontSize={"xx-large"} h="100vh"><div>
+            <b>Lista użytkowników: </b>
+            {context.basicData.users.map((a)=>{
+                return (<li>{a}</li>)
+            })}
+
+        </div></Box>
             <Wrapper heading={"Dodaj Użytkownika"}>
                 <FormLabel> Wpisz imię</FormLabel>
                 <Input
                     type="text" value={imie} onChange={zmianaImie}
 
                 />
-                <Button onClick={() => handleClick()/* czysc()*/} colorScheme='blue'>Dodaj użytkownika</Button>
-            </Wrapper>
-            <div>
-<p>Lista użytkowników</p>
-                    <ul>{listItems}</ul>
+                <Button onClick={() => handleClick()} colorScheme='green' bg='#D2691E'>Dodaj użytkownika </Button>
+                <Button onClick={()=>navigate("../expense")} colorScheme='green' bg='#D2691E'>Dodaj Wydatek</Button>
 
-            </div>
+            </Wrapper>
+
         </div>
     )
 }

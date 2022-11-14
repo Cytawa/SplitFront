@@ -1,5 +1,6 @@
 import { UserData } from "./UserData";
 export interface BasicData {
     name: string;
-    users:[UserData];
+    sum:number;
+    users:[string];
 }

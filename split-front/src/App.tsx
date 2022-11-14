@@ -7,21 +7,38 @@ import {BillPage} from "./component/BillPage"
 import {ExpensePage} from "./component/ExpensePage"
 import { BasicData } from "./models/BasicData";
 import {UserPage} from "./component/UserPage"
+import {BccccasicExpens} from "./models/BccccasicExpens";
 
 
 interface DataContext {
     basicData: BasicData;
     basicDataModifier: (value: BasicData) => void;
 }
+interface ExpenseContext {
+    basicExpense: BccccasicExpens
+    bacisExpenseModifier: (value:BccccasicExpens)=>void;
+}
 export interface User{
     user:""
 }
 
 
+
+
+/*export const ExpanseContext=createContext<ExpenseContext>(
+    {
+        basicExpense:{
+
+        }
+    }
+
+)*/
+
 export const DataContext = createContext<DataContext>({
     basicData: {
         name: "",
-        users: [{id:1,user:""}],
+        sum:0,
+        users: [""],
 
     },
     basicDataModifier: (value: BasicData) => {},
@@ -33,7 +50,8 @@ function App() {
     const [basicData, setBasicData] = useState<BasicData>({
 
         name: "",
-        users:  [{id:1,user:""}],
+        sum:0,
+        users:  [""],
 
         },);
         const basicDataModifier = (value: BasicData) => {

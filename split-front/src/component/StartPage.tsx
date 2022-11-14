@@ -35,7 +35,7 @@ export const StartPage = () => {
     }
 
     return (
-        <Wrapper heading={"Stwórz swój rachunek"}>
+        <Wrapper  heading={"Stwórz swój rachunek"} >
 
             <FormLabel> Wpisz nazwe</FormLabel>
             <Input
