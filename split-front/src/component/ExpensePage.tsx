@@ -4,11 +4,13 @@ import React, {useContext, useEffect, useState} from "react";
 import {DataContext} from "../App";
 import {useNavigate} from "react-router-dom";
 import {waitFor} from "@testing-library/react";
+import any = jasmine.any;
 
 export const ExpensePage = () => {
     const context = useContext(DataContext)
     const billName = context.basicData.name
     const billSum = context.basicData.sum
+    const usersExp=[""]
     const [wydatek, setWydatek] = useState({
         nameExpense: "",
         sum:0,
@@ -36,8 +38,35 @@ export const ExpensePage = () => {
     };
 
 
-    function handleClick() {
-    }
+    async function handleClick() {
+    await fetch(`http://localhost:3010/split/expense`
+
+        , {
+            method: 'POST',
+            mode: 'cors',
+            headers: {'Content-Type': 'application/json',},
+            body: JSON.stringify({
+        "nameExpanse": wydatek.nameExpense,
+            "sumExpense": wydatek.sum,
+            "whoPay": wydatek.whoPay,
+
+            "users": [
+            {"username":"Piotr"}
+        ]
+    })
+        })
+        await setExptoBill()
+}
+async function setExptoBill(){ await fetch(`http://localhost:3010/split/expense/setbill/${wydatek.nameExpense}/${context.basicData.name}`
+
+    , {
+    method: 'PATCH',
+        mode: 'cors',
+        headers: {'Content-Type': 'application/json'}
+    })
+
+}
+
 
 
     return (
@@ -53,7 +82,7 @@ export const ExpensePage = () => {
                 <div>
                     <b>Kto Skorzystał: </b>
                     {context.basicData.users.map((a) => {
-                        return (<li><Checkbox defaultChecked>{a}</Checkbox></li>)
+                        return (<li><Checkbox defaultChecked onSelect={()=>usersExp.push(a)}>{a}</Checkbox></li>)
                     })}
 
                 </div>
@@ -67,6 +96,7 @@ export const ExpensePage = () => {
                     {context.basicData.users.map((a) => (
                         <option value={a}>{a}</option>
 
+
                     ))}
                 </Select>
                 </Center>
@@ -78,6 +108,7 @@ export const ExpensePage = () => {
                         {wydatek.nameExpense}<br/>
                         {wydatek.sum}<br/>
                         {wydatek.whoPay}
+                        {usersExp.map((b)=>(<li>{b}</li>))}
                     </p>
                 </Center>
                 </Box>
