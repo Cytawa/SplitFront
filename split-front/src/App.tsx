@@ -58,7 +58,7 @@ function App() {
             setBasicData(value);
         };
 
-
+basicData.users.splice(0,1)
 
     return (<DataContext.Provider value={{basicData: basicData, basicDataModifier: basicDataModifier}}
 

@@ -3,8 +3,7 @@ import {Box, Button, Center, Checkbox, FormLabel, Input, Select, Stack} from "@c
 import React, {useContext, useEffect, useState} from "react";
 import {DataContext} from "../App";
 import {useNavigate} from "react-router-dom";
-import {waitFor} from "@testing-library/react";
-import any = jasmine.any;
+
 
 export const ExpensePage = () => {
     const context = useContext(DataContext)
@@ -51,7 +50,7 @@ export const ExpensePage = () => {
             "whoPay": wydatek.whoPay,
 
             "users": [
-            {"username":"Piotr"}
+            {"username":wydatek.whoUse.at(1)}
         ]
     })
         })
@@ -82,7 +81,7 @@ async function setExptoBill(){ await fetch(`http://localhost:3010/split/expense/
                 <div>
                     <b>Kto Skorzystał: </b>
                     {context.basicData.users.map((a) => {
-                        return (<li><Checkbox defaultChecked onSelect={()=>usersExp.push(a)}>{a}</Checkbox></li>)
+                        return (<li><Checkbox onChange={()=>wydatek.whoUse.push({nameUser: a})}>{a}</Checkbox></li>)
                     })}
 
                 </div>
@@ -108,7 +107,7 @@ async function setExptoBill(){ await fetch(`http://localhost:3010/split/expense/
                         {wydatek.nameExpense}<br/>
                         {wydatek.sum}<br/>
                         {wydatek.whoPay}
-                        {usersExp.map((b)=>(<li>{b}</li>))}
+                        {wydatek.whoUse.map((b)=>(<li>{b.nameUser}</li>))}
                     </p>
                 </Center>
                 </Box>

@@ -1,5 +1,5 @@
 import {Wrapper} from "./Wrapper";
-import React, {useContext, useState} from "react";
+import React, {useContext, useState,} from "react";
 import {DataContext} from "../App";
 import {Box, Button, color, FormLabel, Input} from "@chakra-ui/react";
 import {Center} from '@chakra-ui/react'
@@ -15,6 +15,7 @@ export const UserPage = () => {
         setImie(event.currentTarget.value)
 
     }
+
 
    // context.basicData.users.push(imie)
 
