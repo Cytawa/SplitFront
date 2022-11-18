@@ -9,12 +9,11 @@ export const ExpensePage = () => {
     const context = useContext(DataContext)
     const billName = context.basicData.name
     const billSum = context.basicData.sum
-    const usersExp=[""]
     const [wydatek, setWydatek] = useState({
         nameExpense: "",
         sum:0,
-        whoPay: "",
-        whoUse: [{nameUser: ""}]
+        whoPay: '',
+        whoUse: [{username: ''}]
     })
     const navigate = useNavigate()
     const zmianaNazwy = (
@@ -35,9 +34,14 @@ export const ExpensePage = () => {
             whoPay: event.currentTarget.value,
         });
     };
+    async  function addToContext(a:string) {
+        wydatek.whoUse.push({username: a})
+
+    }
 
 
     async function handleClick() {
+
     await fetch(`http://localhost:3010/split/expense`
 
         , {
@@ -49,9 +53,7 @@ export const ExpensePage = () => {
             "sumExpense": wydatek.sum,
             "whoPay": wydatek.whoPay,
 
-            "users": [
-            {"username":wydatek.whoUse.at(1)}
-        ]
+            "users": wydatek.whoUse
     })
         })
         await setExptoBill()
@@ -68,6 +70,7 @@ async function setExptoBill(){ await fetch(`http://localhost:3010/split/expense/
 
 
 
+
     return (
         <div>
 
@@ -80,8 +83,8 @@ async function setExptoBill(){ await fetch(`http://localhost:3010/split/expense/
             <Box bg='#D2691E' float={"right"} w="50vh" borderRadius='md' fontSize={"xx-large"} h="100vh">
                 <div>
                     <b>Kto Skorzystał: </b>
-                    {context.basicData.users.map((a) => {
-                        return (<li><Checkbox onChange={()=>wydatek.whoUse.push({nameUser: a})}>{a}</Checkbox></li>)
+                    {context.basicData.users.map((aa) => {
+                        return (<li><Checkbox   onSelect={()=>addToContext(aa)}>{aa}</Checkbox></li>)
                     })}
 
                 </div>
@@ -107,7 +110,7 @@ async function setExptoBill(){ await fetch(`http://localhost:3010/split/expense/
                         {wydatek.nameExpense}<br/>
                         {wydatek.sum}<br/>
                         {wydatek.whoPay}
-                        {wydatek.whoUse.map((b)=>(<li>{b.nameUser}</li>))}
+                        {wydatek.whoUse.map((b)=>(<li>{b.username}</li>))}
                     </p>
                 </Center>
                 </Box>
