@@ -111,6 +111,8 @@ async function setExptoBill(){ await fetch(`http://localhost:3010/split/expense/
                         {wydatek.sum}<br/>
                         {wydatek.whoPay}
                         {wydatek.whoUse.map((b)=>(<li>{b.username}</li>))}
+                        {wydatek.whoUse.map((b)=>(<li>{b.username}</li>))}
+                        {wydatek.whoUse.map((b)=>(<li>{b.username}</li>))}
                     </p>
                 </Center>
                 </Box>
