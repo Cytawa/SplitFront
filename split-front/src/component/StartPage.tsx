@@ -23,7 +23,7 @@ export const StartPage = () => {
 
     function handleClick() {
 
-        fetch('http://localhost:3010/split/bill/save', {
+        fetch('http://localhost:3011/split/bill/save', {
 
             method: 'POST',
             mode: 'cors',

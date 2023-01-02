@@ -27,7 +27,7 @@ export const UserPage = () => {
     //   }
     //  users.push(response)
     async function handleClick() {
-        await fetch(`http://localhost:3010/split/user/signup`, {
+        await fetch(`http://localhost:3011/split/user/signup`, {
             method: 'POST',
             mode: 'cors',
             headers: {'Content-Type': 'application/json',},
@@ -41,7 +41,7 @@ export const UserPage = () => {
         await czysc()
     }
     async function singUserToBill() {
-        await fetch(`http://localhost:3010/split/user/setbill`
+        await fetch(`http://localhost:3011/split/user/setbill`
 
             , {
                 method: 'POST',

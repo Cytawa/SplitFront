@@ -1,4 +1,3 @@
-
 import {Box, Button, Center, Checkbox, FormLabel, Input, Select, Stack} from "@chakra-ui/react";
 import React, {useContext, useEffect, useState} from "react";
 import {DataContext} from "../App";
@@ -11,7 +10,7 @@ export const ExpensePage = () => {
     const billSum = context.basicData.sum
     const [wydatek, setWydatek] = useState({
         nameExpense: "",
-        sum:0,
+        sum: 0,
         whoPay: '',
         whoUse: [{username: ''}]
     })
@@ -19,12 +18,12 @@ export const ExpensePage = () => {
     const zmianaNazwy = (
         event: React.ChangeEvent<HTMLInputElement>
     ) => {
-        setWydatek( {...wydatek, nameExpense: event.currentTarget.value})
+        setWydatek({...wydatek, nameExpense: event.currentTarget.value})
     }
     const zmianaCeny = (
         event: React.ChangeEvent<HTMLInputElement>
     ) => {
-        setWydatek( {...wydatek, sum: event.currentTarget.valueAsNumber})
+        setWydatek({...wydatek, sum: event.currentTarget.valueAsNumber})
     }
     const zmianaWhoPay = (
         event: React.ChangeEvent<HTMLSelectElement>
@@ -34,7 +33,8 @@ export const ExpensePage = () => {
             whoPay: event.currentTarget.value,
         });
     };
-    async  function addToContext(a:string) {
+
+    async function addToContext(a: string) {
         wydatek.whoUse.push({username: a})
 
     }
@@ -42,33 +42,32 @@ export const ExpensePage = () => {
 
     async function handleClick() {
 
-    await fetch(`http://localhost:3010/split/expense`
+        await fetch(`http://localhost:3011/split/expense`
 
-        , {
-            method: 'POST',
-            mode: 'cors',
-            headers: {'Content-Type': 'application/json',},
-            body: JSON.stringify({
-        "nameExpanse": wydatek.nameExpense,
-            "sumExpense": wydatek.sum,
-            "whoPay": wydatek.whoPay,
-
-            "users": wydatek.whoUse
-    })
-        })
+            , {
+                method: 'POST',
+                mode: 'cors',
+                headers: {'Content-Type': 'application/json',},
+                body: JSON.stringify({
+                    "nameExpanse": wydatek.nameExpense,
+                    "sumExpense": wydatek.sum,
+                    "whoPay": wydatek.whoPay,
+                    "users": wydatek.whoUse
+                })
+            })
         await setExptoBill()
-}
-async function setExptoBill(){ await fetch(`http://localhost:3010/split/expense/setbill/${wydatek.nameExpense}/${context.basicData.name}`
+    }
 
-    , {
-    method: 'PATCH',
-        mode: 'cors',
-        headers: {'Content-Type': 'application/json'}
-    })
+    async function setExptoBill() {
+        await fetch(`http://localhost:3011/split/expense/setbill/${wydatek.nameExpense}/${context.basicData.name}`
 
-}
+            , {
+                method: 'PATCH',
+                mode: 'cors',
+                headers: {'Content-Type': 'application/json'}
+            })
 
-
+    }
 
 
     return (
@@ -84,40 +83,43 @@ async function setExptoBill(){ await fetch(`http://localhost:3010/split/expense/
                 <div>
                     <b>Kto Skorzystał: </b>
                     {context.basicData.users.map((aa) => {
-                        return (<li><Checkbox   onSelect={()=>addToContext(aa)}>{aa}</Checkbox></li>)
+                        return (<li><Checkbox onSelect={() => addToContext(aa)}>{aa}</Checkbox></li>)
                     })}
 
                 </div>
             </Box>
             <Stack borderRadius='md' bg='#F2BA39'>
-                <Box h="20vh" borderRadius='md'><Center bg='#D2691E' display={"flex" } >
-                    <FormLabel margin={2}> Nazwa</FormLabel><Input  type="text" value={wydatek.nameExpense} onChange={zmianaNazwy}/>
-                    <FormLabel margin={2}> Suma</FormLabel><Input  type="number" value={wydatek.sum} onChange={zmianaCeny}/>
+                <Box h="20vh" borderRadius='md'><Center bg='#D2691E' display={"flex"}>
+                    <FormLabel margin={2}> Nazwa</FormLabel><Input type="text" value={wydatek.nameExpense}
+                                                                   onChange={zmianaNazwy}/>
+                    <FormLabel margin={2}> Suma</FormLabel><Input type="number" value={wydatek.sum}
+                                                                  onChange={zmianaCeny}/>
                     <FormLabel margin={2}> Kto Płaci</FormLabel>
-                    <Select placeholder="Wybierz kto płaci" onChange={zmianaWhoPay} >
-                    {context.basicData.users.map((a) => (
-                        <option value={a}>{a}</option>
+                    <Select placeholder="Wybierz kto płaci" onChange={zmianaWhoPay}>
+                        {context.basicData.users.map((a) => (
+                            <option value={a}>{a}</option>
 
 
-                    ))}
-                </Select>
+                        ))}
+                    </Select>
                 </Center>
-                    <Center margin={2} bg='#F2BA39'><Button onClick={() => handleClick()} colorScheme='green' bg='#D2691E'>Dodaj wydatek </Button></Center>
+                    <Center margin={2} bg='#F2BA39'><Button onClick={() => handleClick()} colorScheme='green'
+                                                            bg='#D2691E'>Dodaj wydatek </Button></Center>
                 </Box>
                 <Box h="70vh" borderRadius='md'>
                     <Center>
-                    <p>Lista wydatków:
-                        {wydatek.nameExpense}<br/>
-                        {wydatek.sum}<br/>
-                        {wydatek.whoPay}
-                        {wydatek.whoUse.map((b)=>(<li>{b.username}</li>))}
-                        {wydatek.whoUse.map((b)=>(<li>{b.username}</li>))}
-                        {wydatek.whoUse.map((b)=>(<li>{b.username}</li>))}
-                    </p>
-                </Center>
+                        <p>Lista wydatków:<br/>
+                            {wydatek.nameExpense}<br/>
+                            {wydatek.sum}<br/>
+                            {wydatek.whoPay}
+                            {wydatek.whoUse.map((b) => (<li>{b.username}</li>))}
+                            {wydatek.whoUse.map((b) => (<li>{b.username}</li>))}
+                            {wydatek.whoUse.map((b) => (<li>{b.username}</li>))}
+                        </p>
+                    </Center>
                 </Box>
                 <Box h="10vh" borderRadius='md'><Center>
-                    <Button colorScheme='green' bg='#D2691E' >Podsumowanie</Button>
+                    <Button colorScheme='green' bg='#D2691E'>Podsumowanie</Button>
                 </Center>
                 </Box>
             </Stack>
