@@ -55,7 +55,8 @@ export const ExpensePage = () => {
                     "users": wydatek.whoUse
                 })
             })
-        await setExptoBill()
+        await setExptoBill();
+        await setExptoUser()
     }
 
     async function setExptoBill() {
@@ -67,6 +68,10 @@ export const ExpensePage = () => {
                 headers: {'Content-Type': 'application/json'}
             })
 
+    }
+    async function setExptoUser(){
+        await fetch(`http://localhost:3011/split/user/setexp/${wydatek.whoUse}/{expname})
+        
     }
 
 
